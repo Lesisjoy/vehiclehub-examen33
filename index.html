@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="VehicleHub: catálogo automotriz conectado a APIs FastAPI, Vercel y una arquitectura AWS IPv6 con VPC Peering.">
+    <meta name="theme-color" content="#07101d">
+    <title>VehicleHub · Arquitectura IPv6</title>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+    <a class="skip-link" href="#catalogo">Saltar al catálogo</a>
+    <header class="site-header">
+        <a class="brand" href="#inicio" aria-label="VehicleHub, inicio"><span class="brand-symbol" aria-hidden="true"><i></i><b></b></span><span>Vehicle<strong>Hub</strong></span></a>
+        <nav aria-label="Navegación principal"><a href="#catalogo">Catálogo</a><a href="#arquitectura">Arquitectura</a><a href="#acerca">Acerca de la práctica</a></nav>
+        <span class="header-status"><i></i>Integración distribuida</span>
+    </header>
+
+    <main>
+        <section class="hero" id="inicio" aria-labelledby="main-title">
+            <div class="hero-copy">
+                <p class="eyebrow"><span>Examen 3.3</span> Arquitectura IPv6</p>
+                <h1 id="main-title">Datos en movimiento.<br><em>Infraestructura conectada.</em></h1>
+                <p class="hero-description">Un catálogo automotriz que conecta Vercel con servicios FastAPI en AWS y una base MySQL central mediante IPv6 y VPC Peering.</p>
+                <a class="button primary-button" href="#catalogo">Explorar catálogo <span aria-hidden="true">↓</span></a>
+            </div>
+            <div class="hero-visual" aria-hidden="true">
+                <div class="road-grid"></div><div class="car-outline"><span></span></div>
+                <div class="route-chip chip-one">HTTPS</div><div class="route-chip chip-two">IPv6</div>
+            </div>
+        </section>
+
+        <section class="kpi-grid" aria-label="Resumen de la consulta">
+            <article><span class="kpi-label">Registros recibidos</span><strong data-kpi-records>—</strong><small>total real de la API</small></article>
+            <article><span class="kpi-label">Servicio consultado</span><strong data-kpi-service>Automóviles</strong><small>categoría activa</small></article>
+            <article><span class="kpi-label">Última actualización</span><strong data-kpi-updated>—</strong><small>hora local</small></article>
+        </section>
+
+        <section class="catalog-section" id="catalogo" aria-labelledby="catalog-title">
+            <div class="section-heading">
+                <div><p class="section-kicker">Catálogo conectado</p><h2 id="catalog-title">Vehículos disponibles</h2></div>
+                <p>Los datos se consultan en tiempo real. Ningún registro mostrado se genera o almacena en este frontend.</p>
+            </div>
+
+            <div class="catalog-toolbar">
+                <div class="category-tabs" role="tablist" aria-label="Tipo de vehículo">
+                    <button class="category-tab active" role="tab" type="button" aria-selected="true" data-category="automoviles"><span class="tab-icon car-tab" aria-hidden="true"></span>Automóviles</button>
+                    <button class="category-tab" role="tab" type="button" aria-selected="false" data-category="motocicletas"><span class="tab-icon bike-tab" aria-hidden="true"></span>Motocicletas</button>
+                </div>
+                <button class="button refresh-button" type="button" data-refresh><span aria-hidden="true">↻</span> Actualizar datos</button>
+            </div>
+
+            <div class="filters">
+                <label class="search-field"><span class="sr-only">Buscar por marca o modelo</span><i aria-hidden="true"></i><input type="search" placeholder="Buscar por marca o modelo" autocomplete="off" data-search></label>
+                <label class="sort-field"><span>Ordenar</span><select data-order><option value="name">Marca A–Z</option><option value="year-desc">Año más reciente</option><option value="price-asc">Menor precio</option><option value="price-desc">Mayor precio</option></select></label>
+            </div>
+
+            <div class="catalog-meta"><p class="catalog-status" aria-live="polite" data-status>Preparando consulta…</p><span data-result-count>Sin consulta todavía</span></div>
+            <div class="vehicle-grid" data-grid aria-live="polite"></div>
+        </section>
+
+        <section class="architecture-section" id="arquitectura" aria-labelledby="architecture-title">
+            <div class="architecture-copy"><p class="section-kicker">Recorrido de la información</p><h2 id="architecture-title">Cómo funciona</h2><p>El navegador nunca accede a MySQL. Vercel consulta la API pública seleccionada y cada servicio llega a la base mediante IPv6 por su enlace privado de VPC Peering.</p><div class="active-service">Servicio activo: <strong data-active-service>Automóviles</strong></div></div>
+            <ol class="architecture-flow">
+                <li><span>01</span><div><strong>Navegador</strong><small>Interfaz HTTPS</small></div><b class="protocol public">HTTPS / IPv4</b></li>
+                <li><span>02</span><div><strong>Vercel</strong><small>Frontend + proxy</small></div><b class="protocol public">HTTP controlado</b></li>
+                <li><span>03</span><div><strong>API en EC2</strong><small>FastAPI :5000 / :8000</small></div><b class="protocol private">IPv6 privado</b></li>
+                <li><span>04</span><div><strong>VPC Peering</strong><small>Ruta pcx específica</small></div><b class="protocol private">MySQL :3306</b></li>
+                <li><span>05</span><div><strong>MySQL</strong><small>Procedimientos almacenados</small></div></li>
+            </ol>
+        </section>
+
+        <section class="about-section" id="acerca" aria-labelledby="about-title"><div><p class="section-kicker">Acerca de la práctica</p><h2 id="about-title">Integración entre servicios distribuidos</h2></div><p>Proyecto académico que demuestra separación de responsabilidades, proxy inverso, consumo de APIs y conectividad IPv6 entre VPC de AWS sin exponer el puerto de MySQL a Internet.</p></section>
+    </main>
+
+    <footer><a class="brand footer-brand" href="#inicio"><span class="brand-symbol" aria-hidden="true"><i></i><b></b></span><span>Vehicle<strong>Hub</strong></span></a><p>TecNM · Escalamiento de Redes · Examen 3.3</p><span>Arquitectura IPv6</span></footer>
+    <script type="module" src="/app.js"></script>
+</body>
+</html>

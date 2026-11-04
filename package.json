@@ -1,0 +1,11 @@
+{
+  "name": "vehiclehub-examen33",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "engines": { "node": "24.x" },
+  "scripts": {
+    "check": "node --check app.js && node --check data.js && node --check api/_proxy.js && node --check api/automoviles.js && node --check api/motocicletas.js",
+    "test": "node --test"
+  }
+}
