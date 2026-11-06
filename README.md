@@ -46,10 +46,10 @@ Copia `.env.example` como `.env.local` únicamente para desarrollo local:
 API_AUTOS_URL=http://IP_PUBLICA_EC2_ALUMNO2:5000/api/automoviles
 API_MOTOS_URL=http://IP_PUBLICA_EC2_ALUMNO3:8000/api/motocicletas
 API_AUTOS_KEY=REEMPLAZAR_POR_SECRETO_DEL_ALUMNO2
-API_PROXY_TOKEN=REEMPLAZAR_POR_SECRETO_LARGO
+API_MOTOS_KEY=REEMPLAZAR_POR_SECRETO_DEL_ALUMNO3
 ```
 
-`API_AUTOS_KEY` protege la API de automóviles. `API_PROXY_TOKEN` se mantiene como la clave compartida de motocicletas. Ambas se envían desde las funciones de Vercel mediante `X-API-Key`; nunca llegan al navegador ni se guardan en Git.
+`API_AUTOS_KEY` protege la API de automóviles y `API_MOTOS_KEY` protege la API de motocicletas. Ambas se envían desde las funciones de Vercel mediante `X-API-Key`; nunca llegan al navegador ni se guardan en Git.
 
 Si una instancia EC2 cambia de IPv4 pública después de `Stop/Start`:
 
@@ -81,7 +81,7 @@ Un servidor estático permite revisar el diseño, pero las rutas `/api` requiere
 1. Crea un repositorio nuevo, por ejemplo `vehiclehub-examen33`.
 2. Inicializa Git en esta carpeta, confirma los archivos y sube la rama principal.
 3. Importa el repositorio como un proyecto nuevo en Vercel.
-4. Agrega `API_AUTOS_URL`, `API_AUTOS_KEY`, `API_MOTOS_URL` y `API_PROXY_TOKEN` en los entornos necesarios.
+4. Agrega `API_AUTOS_URL`, `API_AUTOS_KEY`, `API_MOTOS_URL` y `API_MOTOS_KEY` en los entornos necesarios.
 5. Despliega y confirma que el proyecto sea público si se usará como evidencia o portafolio.
 6. Prueba:
    - `/api/automoviles`
@@ -123,7 +123,7 @@ No se incluyen capturas ficticias. Durante la demostración se recomienda obtene
 
 - No versionar `.env.local`, tokens, claves AWS, contraseñas MySQL ni IPv4 privadas.
 - Restringir los Security Groups de EC2 a los puertos mínimos necesarios.
-- Validar `X-API-Key` en ambas APIs si se configura `API_PROXY_TOKEN`.
+- Validar `X-API-Key` en ambas APIs con sus claves independientes.
 - Los proxies aceptan solo `GET`, usan timeout, `Cache-Control: no-store` y no reenvían mensajes internos del origen.
 
 ## Estructura
