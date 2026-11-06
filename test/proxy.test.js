@@ -56,6 +56,16 @@ test("oculta el cuerpo de los errores del origen", async (context) => {
     assert.doesNotMatch(JSON.stringify(response.body), /dato privado/);
 });
 
+test("conserva un 404 del origen sin filtrar detalles internos", async (context) => {
+    process.env.TEST_API_URL = "http://api.example.test/vehiculos";
+    context.mock.method(globalThis, "fetch", async () => new Response(JSON.stringify({ detail: "ruta interna inexistente" }), { status: 404 }));
+    const response = createResponse();
+    await proxyGet({ method: "GET" }, response, options);
+    assert.equal(response.statusCode, 404);
+    assert.equal(response.body.code, "UPSTREAM_ERROR");
+    assert.doesNotMatch(JSON.stringify(response.body), /ruta interna inexistente/);
+});
+
 test("responde 502 ante JSON inválido", async (context) => {
     process.env.TEST_API_URL = "http://api.example.test/vehiculos";
     context.mock.method(globalThis, "fetch", async () => new Response("no-json", { status: 200 }));
