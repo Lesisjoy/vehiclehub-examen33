@@ -46,6 +46,21 @@ test("propaga JSON válido y envía el token solo al origen", async (context) =>
     assert.equal(response.headers["Cache-Control"], "no-store");
 });
 
+test("permite una variable de token específica por servicio", async (context) => {
+    process.env.TEST_API_URL = "http://api.example.test/vehiculos";
+    process.env.TEST_AUTOS_KEY = "clave-autos-prueba";
+    let receivedHeaders;
+    context.mock.method(globalThis, "fetch", async (_url, init) => {
+        receivedHeaders = init.headers;
+        return new Response(JSON.stringify({ total: 1, automoviles: [{ id: 1 }] }), { status: 200 });
+    });
+    const response = createResponse();
+    await proxyGet({ method: "GET" }, response, { ...options, tokenEnvironmentVariable: "TEST_AUTOS_KEY" });
+    assert.equal(response.statusCode, 200);
+    assert.equal(receivedHeaders["X-API-Key"], "clave-autos-prueba");
+    assert.deepEqual(response.body, { total: 1, automoviles: [{ id: 1 }] });
+});
+
 test("oculta el cuerpo de los errores del origen", async (context) => {
     process.env.TEST_API_URL = "http://api.example.test/vehiculos";
     context.mock.method(globalThis, "fetch", async () => new Response(JSON.stringify({ detail: "dato privado" }), { status: 500 }));

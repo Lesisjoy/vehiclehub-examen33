@@ -15,7 +15,12 @@ function readUpstreamUrl(environmentVariable) {
     return url.toString();
 }
 
-export async function proxyGet(request, response, { environmentVariable, label, timeoutMs = DEFAULT_TIMEOUT_MS }) {
+export async function proxyGet(request, response, {
+    environmentVariable,
+    label,
+    tokenEnvironmentVariable = "API_PROXY_TOKEN",
+    timeoutMs = DEFAULT_TIMEOUT_MS,
+}) {
     if (request.method !== "GET") {
         response.setHeader("Allow", "GET");
         return sendJson(response, 405, { error: "Método no permitido.", code: "METHOD_NOT_ALLOWED" });
@@ -31,7 +36,7 @@ export async function proxyGet(request, response, { environmentVariable, label, 
     const controller = new AbortController();
     const timeout = setTimeout(() => controller.abort(), timeoutMs);
     const headers = { Accept: "application/json" };
-    const proxyToken = process.env.API_PROXY_TOKEN?.trim();
+    const proxyToken = process.env[tokenEnvironmentVariable]?.trim();
     if (proxyToken) headers["X-API-Key"] = proxyToken;
 
     try {
